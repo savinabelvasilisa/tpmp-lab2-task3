@@ -1,29 +1,44 @@
 #ifndef TASK3_H
 #define TASK3_H
 
-#define CARS_COUNT 5
-#define BRAND_LEN 30
-#define COLOR_LEN 20
+#define SUBJECTS 5
+#define STUDENTS 10
+#define NAME_LEN 50
 
 typedef struct {
-    char brand[BRAND_LEN];     // марка
-    char color[COLOR_LEN];      // цвет
-    int serial_num;             // серийный номер
-    char reg_num[10];            // регистрационный номер
-    int year;                    // год выпуска
-    int tech_year;               // год техосмотра
-    float price;                 // цена
-} CAR;
+    char name[NAME_LEN];      // фамилия и инициалы
+    int kurs;                  // курс
+    int ses[SUBJECTS];         // успеваемость (5 оценок)
+} STUDENT;
 
 /**
- * Ввод данных об автомобилях
+ * Ввод данных о студентах с клавиатуры
+ * @param students - массив студентов
  */
-void input_cars(CAR cars[], int count);
+void input_students(STUDENT students[], int count);
 
 /**
- * Вывод автомобилей старше 2 лет
+ * Вычисление среднего балла студента
+ * @param s - студент
+ * @return средний балл
  */
-void print_cars_older_than_2_years(CAR cars[], int count, int current_year);
+float average_grade(STUDENT s);
 
-#endif // TASK3_H
+/**
+ * Вычисление общего среднего балла всех студентов
+ * @param students - массив студентов
+ * @return общий средний балл
+ */
+float total_average(STUDENT students[], int count);
 
+/**
+ * Сортировка студентов по алфавиту
+ */
+void sort_students_by_name(STUDENT students[], int count);
+
+/**
+ * Вывод студентов, чей средний балл выше общего
+ */
+void print_above_average(STUDENT students[], int count);
+
+#endif // TASK2_H

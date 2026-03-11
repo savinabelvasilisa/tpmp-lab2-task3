@@ -1,53 +1,78 @@
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 #include "task3.h"
 
-void input_cars(CAR cars[], int count) {
-    printf("\nВведите данные о %d автомобилях:\n", count);
+void input_students(STUDENT students[], int count) {
+    printf("Введите данные о %d студентах:\n", count);
     
     for (int i = 0; i < count; i++) {
-        printf("\nАвтомобиль #%d:\n", i + 1);
+        printf("\nСтудент #%d:\n", i + 1);
         
-        printf("Марка: ");
-        while( getchar() != '\n');
-        fgets(cars[i].brand, BRAND_LEN, stdin);
-        cars[i].brand[strcspn(cars[i].brand, "\n")] = 0;
+        // Ввод ФИО
+        printf("Фамилия и инициалы: ");
+        while (getchar() != '\n');
+        fgets(students[i].name, NAME_LEN, stdin);
+        students[i].name[strcspn(students[i].name, "\n")] = 0; // убираем \n
         
-        printf("Цвет: ");
-        fgets(cars[i].color, COLOR_LEN, stdin);
-        cars[i].color[strcspn(cars[i].color, "\n")] = 0;
+        // Ввод курса
+        printf("Курс: ");
+        scanf("%d", &students[i].kurs);
         
-        printf("Серийный номер: ");
-        scanf("%d", &cars[i].serial_num);
-        
-        printf("Регистрационный номер: ");
-        scanf("%s", cars[i].reg_num);
-        
-        printf("Год выпуска: ");
-        scanf("%d", &cars[i].year);
-        
-        printf("Год техосмотра: ");
-        scanf("%d", &cars[i].tech_year);
-        
-        printf("Цена: ");
-        scanf("%f", &cars[i].price);
+        // Ввод оценок
+        printf("Оценки по 5 предметам: ");
+        for (int j = 0; j < SUBJECTS; j++) {
+            scanf("%d", &students[i].ses[j]);
+        }
     }
 }
 
-void print_cars_older_than_2_years(CAR cars[], int count, int current_year) {
-    printf("\nАвтомобили старше 2 лет (на %d год):\n", current_year);
+float average_grade(STUDENT s) {
+    int sum = 0;
+    for (int i = 0; i < SUBJECTS; i++) {
+        sum += s.ses[i];
+    }
+    return (float)sum / SUBJECTS;
+}
+
+float total_average(STUDENT students[], int count) {
+    float total = 0;
+    for (int i = 0; i < count; i++) {
+        total += average_grade(students[i]);
+    }
+    return total / count;
+}
+
+void sort_students_by_name(STUDENT students[], int count) {
+    STUDENT temp;
+    
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (strcmp(students[i].name, students[j].name) > 0) {
+                temp = students[i];
+                students[i] = students[j];
+                students[j] = temp;
+            }
+        }
+    }
+}
+
+void print_above_average(STUDENT students[], int count) {
+    float avg = total_average(students, count);
+    printf("\nОбщий средний балл: %.2f\n", avg);
+    
+    printf("\nСтуденты с баллом выше среднего:\n");
     int found = 0;
     
     for (int i = 0; i < count; i++) {
-        if (current_year - cars[i].year > 2) {
-            printf("Марка: %s, Цвет: %s, Рег.номер: %s, Год: %d, Цена: %.2f\n",
-                   cars[i].brand, cars[i].color, cars[i].reg_num, 
-                   cars[i].year, cars[i].price);
+        float student_avg = average_grade(students[i]);
+        if (student_avg > avg) {
+            printf("%s, курс %d, средний балл: %.2f\n", 
+                   students[i].name, students[i].kurs, student_avg);
             found = 1;
         }
     }
     
     if (!found) {
-        printf("Автомобилей старше 2 лет не найдено\n");
+        printf("Таких студентов нет\n");
     }
 }
