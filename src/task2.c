@@ -10,7 +10,7 @@ void input_students(STUDENT students[], int count) {
         
         // Ввод ФИО
         printf("Фамилия и инициалы: ");
-        getchar(); // очистка буфера
+        while (getchar() != '\n');
         fgets(students[i].name, NAME_LEN, stdin);
         students[i].name[strcspn(students[i].name, "\n")] = 0; // убираем \n
         

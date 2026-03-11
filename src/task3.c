@@ -1,3 +1,4 @@
+#include <string.h>
 #include <stdio.h>
 #include "task3.h"
 
@@ -8,7 +9,7 @@ void input_cars(CAR cars[], int count) {
         printf("\nАвтомобиль #%d:\n", i + 1);
         
         printf("Марка: ");
-        getchar();
+        while( getchar() != '\n');
         fgets(cars[i].brand, BRAND_LEN, stdin);
         cars[i].brand[strcspn(cars[i].brand, "\n")] = 0;
         

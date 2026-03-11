@@ -29,13 +29,15 @@ int main() {
                 int n;
                 printf("Введите размер массива: ");
                 scanf("%d", &n);
-                
+                clear_input();
+               
                 int arr[n];
                 printf("Введите %d натуральных чисел: ", n);
                 for (int i = 0; i < n; i++) {
                     scanf("%d", &arr[i]);
                 }
-                
+                clear_input();
+ 
                 find_max_digit_sum(arr, n);
                 break;
             }
